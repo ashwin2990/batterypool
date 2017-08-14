@@ -13,6 +13,7 @@ import android.Manifest;
 import android.support.v4.content.ContextCompat;
 import android.app.AlertDialog;
 import android.R.string;
+import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -49,14 +50,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
 
         // Add a marker in Sydney and move the camera
-        buildGoogleApiClient();
+
         if (checkLocationPermission()) {
+            buildGoogleApiClient();
             mMap.setMyLocationEnabled(true);
         }
 
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
     }
 
     private synchronized void buildGoogleApiClient() {
@@ -84,14 +83,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mLocationRequest.setFastestInterval(1000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         if (checkLocationPermission()) {
-            if (ContextCompat.checkSelfPermission(this,
-                    Manifest.permission. ACCESS_FINE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-
                 //Request location updates:
-                LocationServices.FusedLocationApi.requestLocationUpdates(mApiClient, mLocationRequest, this);
+            LocationServices.FusedLocationApi.requestLocationUpdates(mApiClient, mLocationRequest, this);
             }
-        }
+
 
 
     }
