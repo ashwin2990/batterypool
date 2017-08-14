@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "299872120294",
+    "firebase_url": "https://batterypoolapp.firebaseio.com",
+    "project_id": "batterypoolapp",
+    "storage_bucket": "batterypoolapp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:299872120294:android:e4df5b6c70c47b59",
+        "android_client_info": {
+          "package_name": "com.example.ashwinshankar.batterypool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "299872120294-fq2mbi00shoap0qr01d7mbmgojeg58ga.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.ashwinshankar.batterypool",
+            "certificate_hash": "61d5235cd341ad3c89cb0c9f23537f50ed9559f1"
+          }
+        },
+        {
+          "client_id": "299872120294-svbeqcf8p9qo41ksoubqn6pqsbkirj0a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRci7byZilC9w2w4vbShvt5rfSchwupVM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "299872120294-svbeqcf8p9qo41ksoubqn6pqsbkirj0a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

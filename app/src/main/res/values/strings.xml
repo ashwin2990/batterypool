@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">BatteryPool</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_location_permission">Can I grant Location?</string>
+    <string name="text_location_permission">Please?</string>
+    <string name="ok">OK</string>
+</resources>
