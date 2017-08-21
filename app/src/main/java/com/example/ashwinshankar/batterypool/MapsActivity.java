@@ -21,6 +21,8 @@ import android.widget.TextView;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -38,10 +40,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import static android.R.attr.radius;
+import static android.icu.lang.UCharacter.GraphemeClusterBreak.L;
 import static android.icu.lang.UCharacter.GraphemeClusterBreak.V;
+import static com.example.ashwinshankar.batterypool.R.id.map;
 
 /**
  * An activity that displays a map showing the place at the device's current location.
@@ -69,11 +78,15 @@ public class MapsActivity extends AppCompatActivity
     // location retrieved by the Fused Location Provider.
     private Location mLastKnownLocation;
 
+
     // Keys for storing activity state.
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
     private Button mLogout, mRequest;
+
+    DatabaseReference markerLocations = FirebaseDatabase.getInstance().getReference().child("geofirelocations");
+    DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
 
 
     @Override
@@ -92,8 +105,8 @@ public class MapsActivity extends AppCompatActivity
         // Build the Play services client for use by the Fused Location Provider and the Places API.
         // Use the addApi() method to request the Google Places API and the Fused Location Provider.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
-                .enableAutoManage(this /* FragmentActivity */,
-                        this /* OnConnectionFailedListener */)
+                .enableAutoManage(this ,
+                        this)
                 .addConnectionCallbacks(this)
                 .addApi(LocationServices.API)
                 .addApi(Places.GEO_DATA_API)
@@ -119,15 +132,71 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
-                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("customerRequests");
-                GeoFire geoFire = new GeoFire(ref);
-                geoFire.setLocation(userId, new GeoLocation(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLongitude()));
-
             }
         });
     }
 
+    private int marker_radius = 5;
+    GeoQuery geoQuery;
+
+
+    private void findMarkers(Location userLocation){
+
+        GeoFire geofire = new GeoFire(markerLocations);
+        GeoLocation circleCenter;
+        circleCenter = new GeoLocation(userLocation.getLatitude(), userLocation.getLongitude());
+
+        geoQuery = geofire.queryAtLocation(circleCenter,marker_radius);
+
+        geoQuery.removeAllListeners();
+
+        geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String key, GeoLocation location) {
+                final Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude, location.longitude)).title(key));
+                System.out.printf("My output is not being printed");
+                firebase.child(key).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        marker.setSnippet((String) dataSnapshot.child("child").getValue());
+                        System.out.printf("My output = %d",(String) dataSnapshot.child("child").getValue());
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+            }
+
+            @Override
+            public void onKeyExited(String key) {
+
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+
+
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+
+            }
+
+
+        });
+
+
+    }
     /**
      * Saves the state of the map when the activity is paused.
      */
@@ -147,7 +216,7 @@ public class MapsActivity extends AppCompatActivity
     public void onConnected(Bundle connectionHint) {
         // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(map);
         mapFragment.getMapAsync(this);
     }
 
@@ -210,6 +279,7 @@ public class MapsActivity extends AppCompatActivity
         if (mLocationPermissionGranted) {
             mLastKnownLocation = LocationServices.FusedLocationApi
                     .getLastLocation(mGoogleApiClient);
+            findMarkers(mLastKnownLocation);
         }
         // Set the map's camera position to the current location of the device.
         if (mCameraPosition != null) {
@@ -218,10 +288,15 @@ public class MapsActivity extends AppCompatActivity
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+            findMarkers(mLastKnownLocation);
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            Location userLocation = new Location("user's location");
+            userLocation.setLatitude(mDefaultLocation.latitude);
+            userLocation.setLongitude(mDefaultLocation.longitude);
+            findMarkers(userLocation);
         }
     }
 
@@ -244,6 +319,7 @@ public class MapsActivity extends AppCompatActivity
         }
         updateLocationUI();
     }
+
 
     /**
      * Updates the map's UI settings based on whether the user has granted location permission.
