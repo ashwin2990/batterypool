@@ -154,12 +154,22 @@ public class MapsActivity extends AppCompatActivity
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
                 final Marker marker = mMap.addMarker(new MarkerOptions().position(new LatLng(location.latitude, location.longitude)).title(key));
-                System.out.printf("My output is not being printed");
                 firebase.child(key).addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        marker.setSnippet((String) dataSnapshot.child("child").getValue());
-                        System.out.printf("My output = %d",(String) dataSnapshot.child("child").getValue());
+                        marker.setSnippet("Batteries Available : " + dataSnapshot.child("count").getValue().toString());
+                        //System.out.println(petrol_pump_name);
+                        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                            @Override
+                            public void onInfoWindowClick(Marker marker) {
+                                Intent intent = new Intent(MapsActivity.this,BatteryList.class);
+                                intent.putExtra("Petrol Pump Name", marker.getTitle());
+
+                                startActivity(intent);
+
+
+                            }
+                        });
                     }
 
                     @Override
@@ -167,6 +177,9 @@ public class MapsActivity extends AppCompatActivity
 
                     }
                 });
+
+
+
 
 
             }
