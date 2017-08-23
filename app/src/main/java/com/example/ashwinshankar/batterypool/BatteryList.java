@@ -22,27 +22,10 @@ import java.util.List;
 public class BatteryList extends AppCompatActivity {
     DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
     ListView mListView;
-    ArrayList<String> countryNames = new ArrayList<>();
-    //String[] countryNames = {"Australia", "Brazil", "China", "France", "Germany", "India", "Ireland", "Italy"
-      //      , "Mexico", "Poland", "Russia", "Spain", "US"};
-    ArrayList<String> countryCount = new ArrayList<>();
-    //String[] countryCount = {"1", "2", "3", "4", "5", "6", "7", "8"
-    //        , "9", "10", "11", "12", "13"};
-    ArrayList<Integer> countryFlags = new ArrayList<>();
+    ArrayList<String> batteryID = new ArrayList<>();
+    ArrayList<String> cycleCount = new ArrayList<>();
+    ArrayList<Integer> batteryImg = new ArrayList<>();
 
-    /*int[] countryFlags = {R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool,
-            R.drawable.batterypool};*/
 
 
 
@@ -57,10 +40,9 @@ public class BatteryList extends AppCompatActivity {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String batteryid = postSnapshot.getKey().toString();
                             if(!"count".equals(batteryid) && !"latitude".equals(batteryid) && !"longitude".equals(batteryid)) {
-                                countryNames.add(batteryid);
-                                countryCount.add("1");
-                                countryFlags.add(R.drawable.batterypool);
-                                //System.out.println(batteryid);
+                                batteryID.add(batteryid);
+                                cycleCount.add("1");
+                                batteryImg.add(R.drawable.batterypool);
                             }
 
                 }
@@ -75,14 +57,15 @@ public class BatteryList extends AppCompatActivity {
 
 
         mListView = (ListView) findViewById(R.id.listview);
-        MyAdapter myAdapter = new MyAdapter(BatteryList.this, countryNames, countryFlags, countryCount);
+        MyAdapterBattery myAdapter = new MyAdapterBattery(BatteryList.this, batteryID, batteryImg, cycleCount);
         mListView.setAdapter(myAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent mIntent = new Intent(BatteryList.this, BatteryDetails.class);
-                mIntent.putExtra("countryName", countryNames.get(i));
-                mIntent.putExtra("countryFlag", countryFlags.get(i));
+                mIntent.putExtra("countryName", batteryID.get(i));
+                mIntent.putExtra("cycleCount", cycleCount.get(i));
+                mIntent.putExtra("countryFlag", batteryImg.get(i));
                 startActivity(mIntent);
             }
         });
