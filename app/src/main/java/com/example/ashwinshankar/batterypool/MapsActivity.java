@@ -131,13 +131,33 @@ public class MapsActivity extends AppCompatActivity
         mRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                if(mLocationPermissionGranted && mLastKnownLocation!=null) {
+                    Intent intent = new Intent(MapsActivity.this,LocationList.class);
+                    intent.putExtra("User Latitude", mLastKnownLocation.getLatitude());
+                    intent.putExtra("User Longitude", mLastKnownLocation.getLongitude());
+                    startActivity(intent);
+                }
+                else
+                {
+                    Location userLocation = new Location("user's location");
+                    userLocation.setLatitude(mDefaultLocation.latitude);
+                    userLocation.setLongitude(mDefaultLocation.longitude);
+                    Intent intent = new Intent(MapsActivity.this,LocationList.class);
+                    intent.putExtra("User Location", userLocation);
+                    startActivity(intent);
+                }
             }
         });
     }
 
+    private int radius;
+    private int search_radius = 100;
     private int marker_radius = 5;
+
     GeoQuery geoQuery;
+
+
+
 
 
     private void findMarkers(Location userLocation){
@@ -145,11 +165,8 @@ public class MapsActivity extends AppCompatActivity
         GeoFire geofire = new GeoFire(markerLocations);
         GeoLocation circleCenter;
         circleCenter = new GeoLocation(userLocation.getLatitude(), userLocation.getLongitude());
-
         geoQuery = geofire.queryAtLocation(circleCenter,marker_radius);
-
         geoQuery.removeAllListeners();
-
         geoQuery.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String key, GeoLocation location) {
@@ -158,16 +175,12 @@ public class MapsActivity extends AppCompatActivity
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         marker.setSnippet("Batteries Available : " + dataSnapshot.child("count").getValue().toString());
-                        //System.out.println(petrol_pump_name);
                         mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
                             @Override
                             public void onInfoWindowClick(Marker marker) {
                                 Intent intent = new Intent(MapsActivity.this,BatteryList.class);
                                 intent.putExtra("Petrol Pump Name", marker.getTitle());
-
                                 startActivity(intent);
-
-
                             }
                         });
                     }
@@ -177,11 +190,6 @@ public class MapsActivity extends AppCompatActivity
 
                     }
                 });
-
-
-
-
-
             }
 
             @Override
@@ -227,7 +235,6 @@ public class MapsActivity extends AppCompatActivity
      */
     @Override
     public void onConnected(Bundle connectionHint) {
-        // Build the map.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(map);
         mapFragment.getMapAsync(this);

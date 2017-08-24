@@ -41,7 +41,8 @@
             android:name=".MapsActivity"
             android:label="@string/title_activity_maps" />
         <activity android:name=".BatteryList" />
-        <activity android:name=".BatteryDetails"></activity>
+        <activity android:name=".BatteryDetails" />
+        <activity android:name=".LocationList"></activity>
     </application>
 
 </manifest>

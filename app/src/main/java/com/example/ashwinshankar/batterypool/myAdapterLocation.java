@@ -1,7 +1,7 @@
 package com.example.ashwinshankar.batterypool;
 
 /**
- * Created by ashwinshankar on 8/22/17.
+ * Created by ashwinshankar on 8/23/17.
  */
 
 import android.content.Context;
@@ -15,18 +15,18 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class MyAdapterBattery extends ArrayAdapter<String> {
+public class MyAdapterLocation extends ArrayAdapter<String> {
 
     ArrayList<String> names = new ArrayList<>();
-    ArrayList<String> count = new ArrayList<>();
+    ArrayList<Integer> distances = new ArrayList<>();
     ArrayList<Integer> flags = new ArrayList<>();
     Context mContext;
 
-    public MyAdapterBattery(Context context, ArrayList<String> batteryID, ArrayList<Integer> batteryImg, ArrayList<String> cycleCount) {
+    public MyAdapterLocation(Context context, ArrayList<String> locationName, ArrayList<Integer> locationDistance, ArrayList<Integer> locationImg) {
         super(context, R.layout.list_view);
-        this.names = batteryID;
-        this.count = cycleCount;
-        this.flags = batteryImg;
+        this.names = locationName;
+        this.distances = locationDistance;
+        this.flags = locationImg;
         this.mContext = context;
     }
 
@@ -51,9 +51,9 @@ public class MyAdapterBattery extends ArrayAdapter<String> {
             mViewHolder = (ViewHolder) convertView.getTag();
         }
         mViewHolder.mFlag.setImageResource(flags.get(position));
-        mViewHolder.mName.setText(names.get(position).toString());
+        mViewHolder.mName.setText(names.get(position));
 
-        mViewHolder.mCount.setText("Number of Cycles : " + count.get(position));
+        mViewHolder.mCount.setText(distances.get(position) + " kms away");
         return convertView;
     }
 
@@ -63,5 +63,3 @@ public class MyAdapterBattery extends ArrayAdapter<String> {
         TextView mCount;
     }
 }
-
-

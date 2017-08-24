@@ -63,9 +63,9 @@ public class BatteryList extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent mIntent = new Intent(BatteryList.this, BatteryDetails.class);
-                mIntent.putExtra("countryName", batteryID.get(i));
+                mIntent.putExtra("BatteryID", batteryID.get(i));
                 mIntent.putExtra("cycleCount", cycleCount.get(i));
-                mIntent.putExtra("countryFlag", batteryImg.get(i));
+                mIntent.putExtra("batteryImg", batteryImg.get(i));
                 startActivity(mIntent);
             }
         });
