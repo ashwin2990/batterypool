@@ -152,7 +152,7 @@ public class MapsActivity extends AppCompatActivity
 
     private int radius;
     private int search_radius = 100;
-    private int marker_radius = 5;
+    private int marker_radius = 50;
 
     GeoQuery geoQuery;
 
