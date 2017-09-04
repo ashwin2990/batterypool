@@ -42,7 +42,9 @@
             android:label="@string/title_activity_maps" />
         <activity android:name=".BatteryList" />
         <activity android:name=".BatteryDetails" />
-        <activity android:name=".LocationList"></activity>
+        <activity android:name=".LocationList" />
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".CountDownTimer"></activity>
     </application>
 
 </manifest>

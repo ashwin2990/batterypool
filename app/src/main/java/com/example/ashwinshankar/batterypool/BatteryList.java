@@ -39,7 +39,7 @@ public class BatteryList extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String mbatteryid = postSnapshot.getKey().toString();
-                            if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid)) {
+                            if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid) && !"1".equals(postSnapshot.child("status").getValue().toString())) {
                                 batteryID.add(mbatteryid);
                                 cycleCount.add(postSnapshot.child("cycles").getValue().toString());
                                 batteryImg.add(R.drawable.batterypool);
