@@ -10,19 +10,21 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
 
 import static com.example.ashwinshankar.batterypool.R.id.textView;
 
 
 public class BatteryDetails extends AppCompatActivity {
-    DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
+
+
     TextView mbatteryID;
     TextView mcycleCount;
     TextView mAddress;
     Button mReserve;
-    private String status;
-    //private static String count ;
+
 
 
     @Override
@@ -36,7 +38,8 @@ public class BatteryDetails extends AppCompatActivity {
         final String batteryID = getIntent().getStringExtra("BatteryID");
         final String cycleCount = getIntent().getStringExtra("cycleCount");
         final String swapStation = getIntent().getStringExtra("PetrolStation");
-
+        DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
+        final DatabaseReference transacref = FirebaseDatabase.getInstance().getReference().child("batterylocations/"+swapStation);
 
         firebase.child(swapStation).addValueEventListener(new ValueEventListener() {
             @Override
@@ -58,36 +61,33 @@ public class BatteryDetails extends AppCompatActivity {
                 final Intent mIntent1 = new Intent(BatteryDetails.this, CountDownTimer.class);
                 final Intent mIntent2 = new Intent(BatteryDetails.this, BatteryList.class);
 
-                firebase.child(swapStation).addValueEventListener(new ValueEventListener() {
+                transacref.runTransaction(new Transaction.Handler() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        status = dataSnapshot.child(batteryID).child("status").getValue().toString();
-                        //count=dataSnapshot.child("count").getValue().toString();
-                        //System.out.println("count hereeee"+count);
-
-
+                    public Transaction.Result doTransaction(MutableData mutableData) {
+                        Integer status=mutableData.child(batteryID + "/status").getValue(Integer.class);
+                        Integer count=mutableData.child("count").getValue(Integer.class);
+                        if(status==0)
+                        {
+                            mutableData.child(batteryID + "/status").setValue(1);
+                            count--;
+                            System.out.println("status heree"+status);
+                            System.out.println("count hereeee"+count);
+                            mutableData.child("count").setValue(count);
+                            startActivity(mIntent1);
+                        }
+                        else
+                        {
+                            Toast.makeText(BatteryDetails.this, "Battery Reserved, choose another", Toast.LENGTH_SHORT).show();
+                            startActivity(mIntent2);
+                        }
+                        return Transaction.success(mutableData);
                     }
+
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
 
                     }
                 });
-
-                if(!"1".equals(status)){
-
-                    //System.out.println("swapStation"+swapStation);
-                    //System.out.println("swapStation"+batteryID);
-                   // Integer count_int=Integer.parseInt(count);
-                   // count_int--;
-                    firebase.child(swapStation).child(batteryID).child("status").setValue(1);
-                    //firebase.child(swapStation).child("count").setValue(count_int);
-                    startActivity(mIntent1);
-                }
-                else{
-                    startActivity(mIntent2);
-                }
-
-
 
             }
         });
