@@ -19,11 +19,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -39,12 +34,27 @@
 
         <activity
             android:name=".MapsActivity"
-            android:label="@string/title_activity_maps" />
+            android:label="@string/title_activity_maps" >
+
+
+
+            </activity>
         <activity android:name=".BatteryList" />
         <activity android:name=".BatteryDetails" />
         <activity android:name=".LocationList" />
-        <activity android:name=".Main2Activity" />
-        <activity android:name=".CountDownTimer"></activity>
+        <activity android:name=".SplashScreen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            </activity>
+        <activity
+            android:name=".PickUpTimer"
+            android:label="@string/title_activity_pick_up_timer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity android:name=".ReservationRelease" />
+        <activity android:name=".PaidPage"></activity>
     </application>
 
 </manifest>

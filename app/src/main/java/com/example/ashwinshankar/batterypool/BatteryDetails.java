@@ -58,7 +58,7 @@ public class BatteryDetails extends AppCompatActivity {
         mReserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Intent mIntent1 = new Intent(BatteryDetails.this, CountDownTimer.class);
+                final Intent mIntent1 = new Intent(BatteryDetails.this, PickUpTimer.class);
                 final Intent mIntent2 = new Intent(BatteryDetails.this, BatteryList.class);
 
                 transacref.runTransaction(new Transaction.Handler() {
@@ -70,10 +70,11 @@ public class BatteryDetails extends AppCompatActivity {
                         {
                             mutableData.child(batteryID + "/status").setValue(1);
                             count--;
-                            System.out.println("status heree"+status);
-                            System.out.println("count hereeee"+count);
                             mutableData.child("count").setValue(count);
+                            mIntent1.putExtra("BatteryID", batteryID);
+                            mIntent1.putExtra("PetrolStation",swapStation);
                             startActivity(mIntent1);
+
                         }
                         else
                         {

@@ -4,4 +4,5 @@
     <string name="title_location_permission">Can I grant Location?</string>
     <string name="text_location_permission">Please?</string>
     <string name="ok">OK</string>
+    <string name="title_activity_pick_up_timer">PickUpTimer</string>
 </resources>

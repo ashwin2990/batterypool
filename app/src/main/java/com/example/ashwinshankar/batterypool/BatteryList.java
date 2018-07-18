@@ -42,7 +42,7 @@ public class BatteryList extends AppCompatActivity {
                             if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid) && !"1".equals(postSnapshot.child("status").getValue().toString())) {
                                 batteryID.add(mbatteryid);
                                 cycleCount.add(postSnapshot.child("cycles").getValue().toString());
-                                batteryImg.add(R.drawable.batterypool);
+                                batteryImg.add(R.drawable.batterypool_logo);
                             }
 
                 }

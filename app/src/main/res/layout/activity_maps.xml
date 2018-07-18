@@ -1,31 +1,73 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.ashwinshankar.batterypool.MapsActivity"
-    android:orientation="vertical">
-
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:map="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/map"
     android:name="com.google.android.gms.maps.SupportMapFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.ashwinshankar.batterypool.MapsActivity" />
+    tools:context="com.example.ashwinshankar.batterypool.MapsActivity"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <Button
-        android:id="@+id/logout"
-        android:layout_width="170dp"
-        android:layout_height="wrap_content"
-        android:text="Logout" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        >
+
+        <android.support.v7.widget.Toolbar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Battery Stations"
+                    android:textColor="#fff"
+                    android:textSize="23dp"
+                    android:textStyle="bold"
+                    android:layout_weight="1"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textColor="#fff"
+                    android:layout_weight="1"
+                    android:textSize="16dp"
+                    android:id="@+id/logout"
+                    android:textStyle="bold"
+                    android:layout_gravity="center"
+                    android:gravity="end"
+                    android:paddingRight="20dp"
+                    />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/request_battery"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="I need a battery!"
-        android:layout_gravity="bottom"/>
+        android:text="Need a Battery"
+        android:background="@drawable/bg_button"
+        android:textColor="#fff"
+        android:layout_gravity="bottom"
+        android:layout_margin="30dp"
+        />
 
-</FrameLayout>
+    </fragment>

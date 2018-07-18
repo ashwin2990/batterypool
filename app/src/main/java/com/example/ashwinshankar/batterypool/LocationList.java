@@ -41,7 +41,8 @@ public class LocationList extends AppCompatActivity {
         GeoLocation userLocation;
         double longitude = getIntent().getDoubleExtra("User Longitude",defaultValue);
         double latitude = getIntent().getDoubleExtra("User Latitude",defaultValue);
-        userLocation = new GeoLocation(latitude,longitude);
+        //userLocation = new GeoLocation(latitude,longitude);
+        userLocation = new GeoLocation(18.5387955,73.8058305);
         setContentView(R.layout.activity_location_list);
         getNearbyLocations(userLocation);
     }

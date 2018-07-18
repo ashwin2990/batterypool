@@ -83,7 +83,8 @@ public class MapsActivity extends AppCompatActivity
     private static final String KEY_CAMERA_POSITION = "camera_position";
     private static final String KEY_LOCATION = "location";
 
-    private Button mLogout, mRequest;
+    private TextView mLogout;
+    private Button mRequest;
 
     DatabaseReference markerLocations = FirebaseDatabase.getInstance().getReference().child("geofirelocations");
     DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
@@ -114,7 +115,7 @@ public class MapsActivity extends AppCompatActivity
                 .build();
         mGoogleApiClient.connect();
 
-        mLogout = (Button) findViewById(R.id.logout);
+        mLogout = (TextView) findViewById(R.id.logout);
         mRequest = (Button) findViewById(R.id.request_battery);
 
         mLogout.setOnClickListener(new View.OnClickListener(){
@@ -308,6 +309,7 @@ public class MapsActivity extends AppCompatActivity
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
                     new LatLng(mLastKnownLocation.getLatitude(),
                             mLastKnownLocation.getLongitude()), DEFAULT_ZOOM));
+
             findMarkers(mLastKnownLocation);
         } else {
             Log.d(TAG, "Current location is null. Using defaults.");
