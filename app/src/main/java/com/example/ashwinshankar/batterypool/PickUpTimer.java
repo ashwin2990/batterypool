@@ -66,7 +66,7 @@ public class PickUpTimer extends AppCompatActivity {
         });
         mbatteryID.setText("Battery ID:" + batteryID);
 
-        timer = new CountDownTimer(30000, 1000){
+        timer = new CountDownTimer(600000, 1000){
 
             public void onTick(long millisUntilFinished) {
                 textView4.setText(millisUntilFinished / 1000 + "s");

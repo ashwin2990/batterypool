@@ -34,15 +34,20 @@ public class BatteryList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_battery_list);
         final String s = getIntent().getStringExtra("Petrol Pump Name");
+        Log.d("Petrol Pump Name", s);
         firebase.child(s).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                     String mbatteryid = postSnapshot.getKey().toString();
-                            if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid) && !"1".equals(postSnapshot.child("status").getValue().toString())) {
-                                batteryID.add(mbatteryid);
-                                cycleCount.add(postSnapshot.child("cycles").getValue().toString());
-                                batteryImg.add(R.drawable.batterypool_logo);
+                    Log.d("BatteryID2", mbatteryid);
+
+                            if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid)&&!"status".equals(mbatteryid)){// && !"1".equals(postSnapshot.child("status").getValue().toString())) {
+                                if("0".equals(postSnapshot.child("status").getValue().toString())) {
+                                    batteryID.add(mbatteryid);
+                                    cycleCount.add(postSnapshot.child("cycles").getValue().toString());
+                                    batteryImg.add(R.drawable.batterypool_logo);
+                                }
                             }
 
                 }

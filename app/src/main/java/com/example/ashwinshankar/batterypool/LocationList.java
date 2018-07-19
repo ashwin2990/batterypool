@@ -42,7 +42,7 @@ public class LocationList extends AppCompatActivity {
         double longitude = getIntent().getDoubleExtra("User Longitude",defaultValue);
         double latitude = getIntent().getDoubleExtra("User Latitude",defaultValue);
         //userLocation = new GeoLocation(latitude,longitude);
-        userLocation = new GeoLocation(18.5387955,73.8058305);
+        userLocation = new GeoLocation(12.926209,77.676242);//change to city co-ordinates here
         setContentView(R.layout.activity_location_list);
         getNearbyLocations(userLocation);
     }
