@@ -101,11 +101,10 @@
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Battery ID"
-                            android:textColor="@color/colorAccent"
-                            android:textSize="18dp"
                             android:layout_weight="1.15"
-                            />
+                            android:text="Scooter No"
+                            android:textColor="@color/colorAccent"
+                            android:textSize="18dp" />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -161,10 +160,9 @@
                             android:id="@+id/button4"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="Pay Now"
                             android:background="@drawable/bg_button"
-                            android:textColor="#fff"
-                            />
+                            android:text="Picked Up"
+                            android:textColor="#fff" />
 
                         <Button
                             android:id="@+id/button3"

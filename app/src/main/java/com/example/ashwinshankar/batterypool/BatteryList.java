@@ -24,6 +24,7 @@ public class BatteryList extends AppCompatActivity {
     ListView mListView;
     ArrayList<String> batteryID = new ArrayList<>();
     ArrayList<String> cycleCount = new ArrayList<>();
+    ArrayList<String> batteryType = new ArrayList<>();
     ArrayList<Integer> batteryImg = new ArrayList<>();
 
 
@@ -45,6 +46,7 @@ public class BatteryList extends AppCompatActivity {
                             if(!"count".equals(mbatteryid) && !"latitude".equals(mbatteryid) && !"longitude".equals(mbatteryid) && !"address".equals(mbatteryid)&&!"status".equals(mbatteryid)){// && !"1".equals(postSnapshot.child("status").getValue().toString())) {
                                 if("0".equals(postSnapshot.child("status").getValue().toString())) {
                                     batteryID.add(mbatteryid);
+                                    batteryType.add(postSnapshot.child("battery_type").getValue().toString());
                                     cycleCount.add(postSnapshot.child("cycles").getValue().toString());
                                     batteryImg.add(R.drawable.batterypool_logo);
                                 }
@@ -62,7 +64,7 @@ public class BatteryList extends AppCompatActivity {
 
 
         mListView = (ListView) findViewById(R.id.listview);
-        MyAdapterBattery myAdapter = new MyAdapterBattery(BatteryList.this, batteryID, batteryImg, cycleCount);
+        MyAdapterBattery myAdapter = new MyAdapterBattery(BatteryList.this, batteryID, batteryType, batteryImg, cycleCount);
         mListView.setAdapter(myAdapter);
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -71,6 +73,7 @@ public class BatteryList extends AppCompatActivity {
                 mIntent.putExtra("BatteryID", batteryID.get(i));
                 mIntent.putExtra("cycleCount", cycleCount.get(i));
                 mIntent.putExtra("batteryImg", batteryImg.get(i));
+                mIntent.putExtra("BatteryType", batteryType.get(i));
                 mIntent.putExtra("PetrolStation", s);
                 startActivity(mIntent);
             }

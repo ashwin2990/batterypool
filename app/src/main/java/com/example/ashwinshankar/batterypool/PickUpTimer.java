@@ -45,6 +45,7 @@ public class PickUpTimer extends AppCompatActivity {
         mPayNow = (Button)findViewById(R.id.button4);
 
         final String batteryID = getIntent().getStringExtra("BatteryID");
+        final String batteryType = getIntent().getStringExtra("BatteryType");
         final String swapStation = getIntent().getStringExtra("PetrolStation");
         final Intent mIntent1 = new Intent(PickUpTimer.this, ReservationRelease.class);
         final Intent mIntent2 = new Intent(PickUpTimer.this,PaidPage.class);
@@ -64,7 +65,7 @@ public class PickUpTimer extends AppCompatActivity {
 
             }
         });
-        mbatteryID.setText("Battery ID:" + batteryID);
+        mbatteryID.setText(batteryType);
 
         timer = new CountDownTimer(600000, 1000){
 

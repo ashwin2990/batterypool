@@ -22,9 +22,9 @@ public class MyAdapterBattery extends ArrayAdapter<String> {
     ArrayList<Integer> flags = new ArrayList<>();
     Context mContext;
 
-    public MyAdapterBattery(Context context, ArrayList<String> batteryID, ArrayList<Integer> batteryImg, ArrayList<String> cycleCount) {
+    public MyAdapterBattery(Context context, ArrayList<String> batteryID, ArrayList<String> batteryType, ArrayList<Integer> batteryImg, ArrayList<String> cycleCount) {
         super(context, R.layout.list_view);
-        this.names = batteryID;
+        this.names = batteryType;
         this.count = cycleCount;
         this.flags = batteryImg;
         this.mContext = context;

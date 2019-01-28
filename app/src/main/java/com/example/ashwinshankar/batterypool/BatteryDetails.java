@@ -36,6 +36,7 @@ public class BatteryDetails extends AppCompatActivity {
         mAddress = (TextView) findViewById(R.id.textView9);
         mReserve = (Button) findViewById(R.id.button2);
         final String batteryID = getIntent().getStringExtra("BatteryID");
+        final String batteryType = getIntent().getStringExtra("BatteryType");
         final String cycleCount = getIntent().getStringExtra("cycleCount");
         final String swapStation = getIntent().getStringExtra("PetrolStation");
         DatabaseReference firebase = FirebaseDatabase.getInstance().getReference().child("batterylocations");
@@ -52,8 +53,8 @@ public class BatteryDetails extends AppCompatActivity {
 
             }
         });
-        mbatteryID.setText("Battery ID:" + batteryID);
-        mcycleCount.setText("Battery Cycles: " + cycleCount);
+        mbatteryID.setText(batteryType);
+        mcycleCount.setText(cycleCount);
 
         mReserve.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +73,7 @@ public class BatteryDetails extends AppCompatActivity {
                             count--;
                             mutableData.child("count").setValue(count);
                             mIntent1.putExtra("BatteryID", batteryID);
+                            mIntent1.putExtra("BatteryType", batteryType);
                             mIntent1.putExtra("PetrolStation",swapStation);
                             startActivity(mIntent1);
 
